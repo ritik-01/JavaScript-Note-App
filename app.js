@@ -4,6 +4,7 @@ showNotes();
 let addbtn = document.getElementById('addBtn');
 addbtn.addEventListener('click', function (e) {
     let addTxt = document.getElementById('addTxt');
+    let addTitle = document.getElementById('addTitle');
     let notes = localStorage.getItem('notes');
     if (notes == null) {
         notesObj = [];
@@ -14,7 +15,8 @@ addbtn.addEventListener('click', function (e) {
     if(addTxt.value.length == 0){
         return alert("Notes description can't be Null");
     }
-    notesObj.push(addTxt.value);
+    myObj = {title:addTitle.value, text:addTxt.value}
+    notesObj.push(myObj);
     localStorage.setItem('notes', JSON.stringify(notesObj));
     addTxt.value = '';
     showNotes();
@@ -28,12 +30,13 @@ function showNotes() {
     else {
         notesObj = JSON.parse(notes);
     }
+
     let html = "";
     notesObj.forEach(function(element, index){
         html += `<div class="noteCard card my-2 mx-4" style="width: 18rem;">
         <div class="card-body">
-            <h5 class="card-title">Note ${index+1}</h5>
-            <p class="card-text">${element}</p>
+            <h5 class="card-title">${element.title}</h5>
+            <p class="card-text">${element.text}</p>
             <button id="${index}" onclick='del(this.id)' href="#" class="btn btn-primary">Delete Note</button>
         </div>
     </div>`;
